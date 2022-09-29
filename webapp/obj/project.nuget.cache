@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "EUT6J9La3X0AVcpqrwJAyYhXNpI179Mys1M8jJejco0jxeuyAKOOxP4FakQ9MbNJN5ARYlTk6ee/yB8jH1HYxg==",
+  "dgSpecHash": "0sHra39L3+vfSKhYB7KFYe/S6u6Yc8jKMQIvtMX2EagPEKMzYFPcYLyaA3Yd7oM9OK6NA+c6bRy3vHiKgxlf3A==",
   "success": true,
   "projectFilePath": "D:\\TerraformProject\\AppServiceTerraformProject\\webapp\\webapp\\webapp.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Bhanushali\\.nuget\\packages\\newtonsoft.json\\11.0.2\\newtonsoft.json.11.0.2.nupkg.sha512"
+  ],
   "logs": []
 }
