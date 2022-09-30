@@ -5,14 +5,19 @@ namespace webapp.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
-
+        public  ILogger<IndexModel> _logger;
+		public bool ShowRequestId;
         public IndexModel(ILogger<IndexModel> logger)
         {
             _logger = logger;
         }
 
         public void OnGet()
+        {
+
+        }
+		
+		public void testmethod()
         {
 
         }
