@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace webapp.Pages
 {
@@ -20,12 +22,32 @@ namespace webapp.Pages
             {
                 
             }
+            LoginIsValid_INSECURE_EXAMPLE("", "");
 
         }
 		
 		public void testmethod()
         {
 
+        }
+
+        public bool LoginIsValid_INSECURE_EXAMPLE(string account, string password)
+        {
+            using (SqlConnection connection = new SqlConnection())
+            {
+                using (SqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandType = CommandType.Text;
+                    command.CommandText = "SELECT COUNT(*) FROM [User] WHERE [Account] = '" + account + "' AND [Password] = '" + password + "'";
+                    connection.Open();
+                    int count = (int)command.ExecuteScalar();
+                    if (count > 0)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
     }
 }
