@@ -27,7 +27,7 @@ jobs:
       - name: Begin Sonar scan
         run: |
           dotnet tool install --global dotnet-sonarscanner
-          SonarScanner.MSBuild.exe begin /k:"KanaiyaKatarmal_githuazureterraform" /o:"kanaiyakatarmal" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          MSBuild.SonarQube.Runner.exe begin /k:"KanaiyaKatarmal_githuazureterraform" /o:"kanaiyakatarmal" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           
       - name: Build IdentityServer and run unit tests
         env:
@@ -37,6 +37,6 @@ jobs:
           MSBuild.exe WebApplication\WebApplication.csproj /t:Rebuild 
 
       - name: Sonarqube end
-        run: SonarScanner.MSBuild.exe end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+        run: MSBuild.SonarQube.Runner.exe end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
