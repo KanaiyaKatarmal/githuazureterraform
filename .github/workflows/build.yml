@@ -1,37 +1,41 @@
+name: Build
 on:
-  # Trigger analysis when pushing in master or pull requests, and when creating
-  # a pull request.
 #  push:
 #    branches:
 #      - master
   pull_request:
-      types: [opened, synchronize, reopened]
-name: Main Workflow
+    types: [opened, synchronize, reopened]
+
+
 jobs:
   sonarcloud:
-    runs-on: ubuntu-latest
+    name: SonarCloud
+    runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2.2.0
+      - uses: actions/checkout@v2
         with:
-          # Disabling shallow clone is recommended for improving relevancy of sonarqube reporting
-          fetch-depth: 0
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      
 
-      - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.0.2 
+      - uses: microsoft/setup-msbuild@v1
+      
+      - name: Restore NuGet packages
+        run: |
+          nuget restore webapp.sln
 
-      - name: Setup Nuget
-        uses: Nuget/setup-nuget@v1.0.5
-
-      - name: Restore nuget packages
-        run: nuget restore webapp.sln
-
-      - name: Sonarqube Begin
-        run: | 
+      
+      - name: Begin Sonar scan
+        run: |
           dotnet tool install --global dotnet-sonarscanner
           dotnet sonarscanner begin /k:"KanaiyaKatarmal_githuazureterraform" /o:"kanaiyakatarmal" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           
-      - name: Build
-        run: dotnet build
+      - name: Build IdentityServer and run unit tests
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          dotnet build webapp\webapp.csproj
+
 
 
       - name: Sonarqube end
