@@ -32,6 +32,9 @@ jobs:
           dotnet sonarscanner begin /o:ngruson /k:ngruson_AdventureWorks /d:sonar.login=${{ secrets.SONAR_TOKEN }} /d:sonar.host.url=https://sonarcloud.io
       
       - name: Build IdentityServer and run unit tests
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           dotnet build webapp\webapp.csproj --no-restore
           dotnet build WebApplication\WebApplication.csproj --no-restore
