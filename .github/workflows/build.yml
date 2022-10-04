@@ -24,7 +24,10 @@ jobs:
       - uses: microsoft/setup-msbuild@v1
       
       - name: Restore NuGet packages
-        run: nuget restore webapp.sln
+        run: |
+          nuget restore webapp.sln
+          nuget restore webapp\webapp.csproj
+          nuget restore WebApplication\WebApplication.csproj
       
       - name: Begin Sonar scan
         run: |
