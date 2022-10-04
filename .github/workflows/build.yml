@@ -24,7 +24,7 @@ jobs:
       - uses: microsoft/setup-msbuild@v1
       
       - name: Restore NuGet packages
-        run: nuget restore src\webapp.sln
+        run: nuget restore webapp.sln
       
       - name: Begin Sonar scan
         run: |
@@ -33,8 +33,8 @@ jobs:
       
       - name: Build IdentityServer and run unit tests
         run: |
-          dotnet build src\webapp\webapp.csproj --no-restore
-          dotnet build src\WebApplication\WebApplication.csproj --no-restore
+          dotnet build webapp\webapp.csproj --no-restore
+          dotnet build WebApplication\WebApplication.csproj --no-restore
 
 
       - name: End Sonar scan
