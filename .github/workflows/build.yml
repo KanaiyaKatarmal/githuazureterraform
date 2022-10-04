@@ -1,10 +1,14 @@
 name: Build
 on:
-  push:
-    branches:
-      - master
+#  push:
+#    branches:
+#      - master
   pull_request:
     types: [opened, synchronize, reopened]
+
+env:
+  DOTNET_VERSION: 6.0.x
+  
 jobs:
   sonarcloud:
     name: SonarCloud
@@ -13,11 +17,26 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Build
+      
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+      - uses: microsoft/setup-msbuild@v1
+      
+      - name: Restore NuGet packages
+        run: nuget restore src\webapp.sln
+      
+      - name: Begin Sonar scan
         run: |
-          dotnet tool install --global dotnet-coverage
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          dotnet tool install --global dotnet-sonarscanner
+          dotnet sonarscanner begin /o:ngruson /k:ngruson_AdventureWorks /d:sonar.login=${{ secrets.SONAR_TOKEN }} /d:sonar.host.url=https://sonarcloud.io
+      
+      - name: Build IdentityServer and run unit tests
+        run: |
+          dotnet build src\webapp\webapp.csproj --no-restore
+          dotnet build src\WebApplication\WebApplication.csproj --no-restore
+
+
+      - name: End Sonar scan
+        run: dotnet sonarscanner end /d:sonar.login=${{ secrets.SONAR_TOKEN }}
+      
