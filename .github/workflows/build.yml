@@ -39,8 +39,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          dotnet build webapp\webapp.csproj --no-restore
-          dotnet build WebApplication\WebApplication.csproj --no-restore
+          dotnet build webapp\webapp.csproj
+#          dotnet build WebApplication\WebApplication.csproj --no-restore
 
 
       - name: End Sonar scan
