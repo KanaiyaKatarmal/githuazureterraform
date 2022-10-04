@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -52,8 +51,7 @@ namespace WebApplication
 
         private void GetBookList()
         {
-            SqlConnection con = new SqlConnection("Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=");
-          
+           
         }
     }
 }
