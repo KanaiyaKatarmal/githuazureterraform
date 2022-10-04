@@ -27,17 +27,16 @@ jobs:
       - name: Begin Sonar scan
         run: |
           dotnet tool install --global dotnet-sonarscanner
-          dotnet sonarscanner begin /k:"KanaiyaKatarmal_githuazureterraform" /o:"kanaiyakatarmal" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          SonarScanner.MSBuild.exe begin /k:"KanaiyaKatarmal_githuazureterraform" /o:"kanaiyakatarmal" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           
       - name: Build IdentityServer and run unit tests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          msbuild WebApplication\WebApplication.csproj /t:Clean;Rebuild 
-
+          MSBuild.exe WebApplication\WebApplication.csproj /t:Rebuild 
 
       - name: Sonarqube end
-        run: dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+        run: SonarScanner.MSBuild.exe end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
