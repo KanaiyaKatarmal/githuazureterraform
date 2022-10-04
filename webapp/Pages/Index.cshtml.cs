@@ -20,8 +20,8 @@ namespace webapp.Pages
         public void OnGet()
         {
             
-            LoginIsValid_INSECURE_EXAMPLE("", "");
-            if (true) ;
+            
+            if (true);
             {
 
             }
